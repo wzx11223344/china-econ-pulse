@@ -1,0 +1,250 @@
+# =============================================================================
+# china-econ-pulse 指标定义与阈值配置
+# =============================================================================
+
+# --- 经济脉搏指数 (Pulse Index) 权重 ---
+pulse_weights:
+  pmi_manufacturing: 0.20
+  caixin_pmi: 0.15
+  electricity_growth: 0.15
+  freight_growth: 0.10
+  new_loans: 0.10
+  consumer_confidence: 0.10
+  ppi_yoy: 0.10
+  retail_sales: 0.10
+
+# --- Pulse Index 区间阈值 ---
+thresholds:
+  expansion: 60        # >= 60: 扩张
+  stable: 40           # >= 40: 平稳
+  contraction: 20      # >= 20: 收缩
+                        # <  20: 预警
+
+# --- 趋势判定阈值 ---
+trend_signal:
+  strong_up: 5.0       # MoM change >= 5: 加速上行
+  mild_up: 1.0         # MoM change >= 1: 温和回升
+  flat_min: -1.0       # |change| <= 1: 横盘整理
+  mild_down: -5.0      # MoM change <= -5: 边际走弱
+                        # MoM change <  -5: 加速下行
+
+# --- 六维雷达图分类 ---
+indicator_groups:
+  production:
+    - industrial_production
+    - electricity
+    - pmi_manufacturing
+  demand:
+    - retail_sales
+    - consumer_confidence
+    - imports
+  prices:
+    - cpi
+    - ppi
+    - new_home_prices
+  finance:
+    - m2
+    - social_financing
+    - new_loans
+  trade:
+    - exports
+    - imports
+    - trade_balance
+  property:
+    - floor_space_sold
+    - real_estate_investment
+    - new_home_prices
+
+# --- 全量指标定义 (用于数据附录与可视化) ---
+indicators:
+  - id: pmi_manufacturing
+    name: "制造业PMI"
+    name_en: "Manufacturing PMI"
+    unit: "%"
+    frequency: monthly
+    source: "国家统计局"
+    category: production
+    is_leading: true
+
+  - id: pmi_non_manufacturing
+    name: "非制造业PMI"
+    name_en: "Non-Manufacturing PMI"
+    unit: "%"
+    frequency: monthly
+    source: "国家统计局"
+    category: production
+
+  - id: caixin_pmi_manufacturing
+    name: "财新制造业PMI"
+    name_en: "Caixin Manufacturing PMI"
+    unit: "%"
+    frequency: monthly
+    source: "财新/Markit"
+    category: production
+    is_leading: true
+
+  - id: caixin_pmi_services
+    name: "财新服务业PMI"
+    name_en: "Caixin Services PMI"
+    unit: "%"
+    frequency: monthly
+    source: "财新/Markit"
+    category: production
+
+  - id: cpi
+    name: "居民消费价格指数(CPI)"
+    name_en: "CPI"
+    unit: "% (同比)"
+    frequency: monthly
+    source: "国家统计局"
+    category: prices
+
+  - id: ppi
+    name: "工业生产者出厂价格指数(PPI)"
+    name_en: "PPI"
+    unit: "% (同比)"
+    frequency: monthly
+    source: "国家统计局"
+    category: prices
+    is_leading: true
+
+  - id: industrial_production
+    name: "规模以上工业增加值"
+    name_en: "Industrial Production"
+    unit: "% (同比)"
+    frequency: monthly
+    source: "国家统计局"
+    category: production
+
+  - id: fixed_asset_investment
+    name: "固定资产投资"
+    name_en: "Fixed Asset Investment"
+    unit: "% (累计同比)"
+    frequency: monthly
+    source: "国家统计局"
+    category: demand
+
+  - id: retail_sales
+    name: "社会消费品零售总额"
+    name_en: "Retail Sales"
+    unit: "% (同比)"
+    frequency: monthly
+    source: "国家统计局"
+    category: demand
+    is_leading: true
+
+  - id: exports
+    name: "出口金额"
+    name_en: "Exports"
+    unit: "亿美元"
+    frequency: monthly
+    source: "海关总署"
+    category: trade
+
+  - id: imports
+    name: "进口金额"
+    name_en: "Imports"
+    unit: "亿美元"
+    frequency: monthly
+    source: "海关总署"
+    category: trade
+
+  - id: trade_balance
+    name: "贸易差额"
+    name_en: "Trade Balance"
+    unit: "亿美元"
+    frequency: monthly
+    source: "海关总署"
+    category: trade
+
+  - id: m0
+    name: "流通中货币(M0)"
+    name_en: "M0 Money Supply"
+    unit: "% (同比)"
+    frequency: monthly
+    source: "中国人民银行"
+    category: finance
+
+  - id: m1
+    name: "狭义货币(M1)"
+    name_en: "M1 Money Supply"
+    unit: "% (同比)"
+    frequency: monthly
+    source: "中国人民银行"
+    category: finance
+
+  - id: m2
+    name: "广义货币(M2)"
+    name_en: "M2 Money Supply"
+    unit: "% (同比)"
+    frequency: monthly
+    source: "中国人民银行"
+    category: finance
+
+  - id: social_financing
+    name: "社会融资规模增量"
+    name_en: "Total Social Financing"
+    unit: "亿元"
+    frequency: monthly
+    source: "中国人民银行"
+    category: finance
+
+  - id: new_loans
+    name: "新增人民币贷款"
+    name_en: "New RMB Loans"
+    unit: "亿元"
+    frequency: monthly
+    source: "中国人民银行"
+    category: finance
+    is_leading: true
+
+  - id: electricity
+    name: "全社会用电量"
+    name_en: "Electricity Consumption"
+    unit: "% (同比)"
+    frequency: monthly
+    source: "国家能源局"
+    category: production
+    is_leading: true
+
+  - id: freight_volume
+    name: "货运量"
+    name_en: "Freight Volume"
+    unit: "% (同比)"
+    frequency: monthly
+    source: "交通运输部"
+    category: production
+    is_leading: true
+
+  - id: new_home_prices
+    name: "新建商品住宅价格"
+    name_en: "New Home Prices"
+    unit: "% (环比)"
+    frequency: monthly
+    source: "国家统计局"
+    category: property
+
+  - id: floor_space_sold
+    name: "商品房销售面积"
+    name_en: "Floor Space Sold"
+    unit: "% (同比)"
+    frequency: monthly
+    source: "国家统计局"
+    category: property
+
+  - id: real_estate_investment
+    name: "房地产开发投资"
+    name_en: "Real Estate Investment"
+    unit: "% (同比)"
+    frequency: monthly
+    source: "国家统计局"
+    category: property
+
+  - id: consumer_confidence
+    name: "消费者信心指数"
+    name_en: "Consumer Confidence"
+    unit: "指数"
+    frequency: monthly
+    source: "国家统计局"
+    category: demand
+    is_leading: true
